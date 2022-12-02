@@ -18,23 +18,32 @@ def get_movie(num):
 
     movie.click()
     time.sleep(2)
-    movie_name = driver.find_element(By.XPATH, '//*[@id="super-container"]/div[2]/section[1]/div/div/div[2]/h1')
-    print(f'Movie: {movie_name.get_attribute("innerText")}')
+    movie_header = driver.find_element(By.XPATH, '//*[@id="super-container"]/div[2]/section[1]/div/div/div[2]/h1')
+    name = movie_header.get_attribute("innerText")
+    print(f'Movie: {name}')
     try:
         movie_rating = driver.find_element(By.XPATH,
                                            '// *[ @ id = "super-container"] / div[2] / section[1] / div / div / div[2] / section[1] / div / span[1]')
-        print(f'Rating: {movie_rating.get_attribute("innerText")}')
+        rating = movie_rating.get_attribute("innerText")
+        print(f'Rating: {rating}')
     except:
         print("**The movie is not yet out**")
         upcoming_movie_rating = driver.find_element(By.XPATH,
                                                     '// *[ @ id = "super-container"] / div[2] / section[1] / div / div / div[2] / section / div[2] / div[1] / div / span[1]')
-        print(f'Rating: {upcoming_movie_rating.get_attribute("innerText")} people interested')
+        rating = upcoming_movie_rating.get_attribute("innerText")
+        print(f'Rating: {rating} people interested')
 
     about = driver.find_element(By.XPATH, '//*[@id="component-1"]/section/span/div/span')
-    print(f'About Movie: {about.get_attribute("innerText")}')
+    about_text = about.get_attribute("innerText")
+    print(f'About Movie: {about_text}')
     print("-----------------------------------------------")
+    info = f'\n{name}, {rating}, {about_text}'
+    with open('movie.csv', 'a') as file:
+        file.writelines(info)
     driver.back()
     time.sleep(2)
+
+
 
 print("HERE ARE TOP TRENDING MOVIES IN PUNE")
 
